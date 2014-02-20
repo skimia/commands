@@ -1,0 +1,10 @@
+<?php
+chdir('..');
+chdir('..');
+echo "[Composer] ";
+if(!file_exists(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."composer.phar")){
+	system("php -r \"readfile('https://getcomposer.org/installer');\" | php");
+	echo "Installe\n";
+}
+else
+	echo "Deja installe\n";

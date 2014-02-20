@@ -1,0 +1,11 @@
+<?php
+chdir('..');
+chdir('..');
+echo "[Symfony]\n";
+if(!file_exists(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."app")){
+	system("php composer.phar create-project symfony/framework-standard-edition ".basename(dirname(dirname(__DIR__)))." --no-install");
+	exec("ROBOCOPY /E /IS /MOVE ".dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.basename(dirname(dirname(__DIR__)))." ". dirname(dirname(__DIR__)));
+	echo "Installe\n";
+}
+else
+	echo "Deja installe\n";

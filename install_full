@@ -1,0 +1,13 @@
+<?php
+
+echo "[[ Skimia Install Repo ]]\n";
+echo "Bienvenue dans la creation de projet Skimia\n\n";
+
+chdir("install");
+echo "[Etape1] Installation de Composer\n";
+system("php install_composer");
+echo "[Etape1] Terminee\n\n";
+
+echo "[Etape2] Installation de Symfony\n";
+system("php install_symfony");
+echo "[Etape2] Terminee\n\n";
