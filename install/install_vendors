@@ -1,6 +1,6 @@
 <?php
 chdir("..");
 chdir("..");
-system("composer.phar self-update");
-system("composer.phar update");
+system("php composer.phar self-update");
+system("php composer.phar update");
 chdir("commands/install");
