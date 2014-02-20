@@ -11,3 +11,7 @@ echo "[Etape1] Terminee\n\n";
 echo "[Etape2] Installation de Symfony\n";
 system("php install_symfony");
 echo "[Etape2] Terminee\n\n";
+
+echo "[Etape3] Installation des Vendors\n";
+system("php install_vendors");
+echo "[Etape3] Terminee\n\n";
