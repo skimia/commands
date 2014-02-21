@@ -3,15 +3,35 @@
 echo "[[ Skimia Install Repo ]]\n";
 echo "Bienvenue dans la creation de projet Skimia\n\n";
 
-chdir("install");
-echo "[Etape1] Installation de Composer\n";
-system("php install_composer");
-echo "[Etape1] Terminee\n\n";
+echo "1) Nouvelle Installation[default]\n";
+echo "2) Installation a partir d'un depot\n";
+$handle = fopen ("php://stdin","r");
+$line = fgets($handle);
+if(trim($line) != '2'){
+	chdir("install");
+	echo "[Etape1] Installation de Composer\n";
+	system("php install_composer");
+	echo "[Etape1] Terminee\n\n";
 
-echo "[Etape2] Installation de Symfony\n";
-system("php install_symfony");
-echo "[Etape2] Terminee\n\n";
+	echo "[Etape2] Installation de Symfony\n";
+	system("php install_symfony");
+	echo "[Etape2] Terminee\n\n";
 
-echo "[Etape3] Installation des Vendors\n";
-system("php install_vendors");
-echo "[Etape3] Terminee\n\n";
+	chdir('..');
+	chdir('configurator');
+
+	echo "[Etape3] Configuration\n";
+	include("configurator/config_parameters");
+	echo "[Etape3] Terminee\n\n";
+
+	chdir('..');
+	chdir('install');
+
+	echo "[Etape4] Installation des Vendors\n";
+	system("php install_vendors");
+	echo "[Etape4] Terminee\n\n";
+}
+else{
+	//old Install
+}
+die();

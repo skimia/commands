@@ -1,0 +1,89 @@
+<?php
+/**********************************\
+	FUNCTIONS
+\**********************************/
+function getVar($question,$default){
+	echo $question.'? ['.$default.'] ';
+	$line = trim(fgets(STDIN));
+	if($line == '')
+		return $default;
+	return $line;
+}
+
+function testBDD($array){
+	$link =	mysql_connect($array['database_host'],$array['database_user'],$array['database_password']);
+	if(!$link){
+		echo "Connexion Invalide\n";
+		return false;
+	}
+	$db_selected = mysql_select_db($array['database_name'], $link);
+	if (!$db_selected) {
+		echo "Base de donnees Invalide\n";
+		return false;
+	}
+	return true;
+}
+function random($car) {
+	$string = "";
+	$chaine = "abcdefghijklmnpqrstuvwxy0123456789";
+	srand((double)microtime()*1000000);
+	for($i=0; $i<$car; $i++) {
+		$string .= $chaine[rand()%strlen($chaine)];
+	}
+	return $string;
+}
+function generateParamsFile($datas){
+	$parameters = 'parameters:'."\n";
+$parameters.= '  database_driver: pdo_mysql'."\n";
+$parameters.= '  database_host: '.$datas['database_host'].''."\n";
+$parameters.= '  database_port: null'."\n";
+$parameters.= '  database_name: '.$datas['database_name'].''."\n";
+$parameters.= '  database_user: '.$datas['database_user'].''."\n";
+$parameters.= '  database_password: "'.$datas['database_password'].'"'."\n";
+$parameters.= '  mailer_transport: mail'."\n";
+$parameters.= '  mailer_host: 127.0.0.1'."\n";
+$parameters.= '  mailer_user: null'."\n";
+$parameters.= '  mailer_password: null'."\n";
+$parameters.= '  mailer_from: '.$datas['mail_from'].''."\n";
+$parameters.= '  locale: '.$datas['locale'].''."\n";
+$parameters.= '  secret: '.$datas['secret'].''."\n";
+$parameters.= '  database_path: null'."\n";
+  
+$parameters.= '  sitename: "'.$datas['sitename'].'"';
+  file_put_contents(dirname(__DIR__).DIRECTORY_SEPARATOR.'parameters.yml',$parameters);
+  echo "\nGeneration du parameters.yml OK!\n";
+}
+
+/****************************\
+	FICHIERS
+\****************************/
+
+
+
+
+
+$connexion = array();
+
+do{
+	$connexion['database_host'] = getVar("\nServeur de base de donnees (MySQL)",'localhost');
+	$connexion['database_user'] = getVar("Utilisateur de base de donnees (MySQL)",'root');
+	$connexion['database_password'] = getVar("Mot de passe de l'utilisateur (MySQL)",'');
+	$connexion['database_name'] = getVar("Base de donnee (MySQL)",'skimia');
+}while(!testBDD($connexion));
+
+echo "\nConnexion OK!";
+
+$connexion['secret'] = random(32);
+echo "\nGeneration du Salt OK!\n";
+
+$connexion['mail_from'] = getVar("Email de Contact","contact@skimia-agency.com");
+
+$connexion['locale'] = getVar("Langue","fr");
+$connexion['sitename'] = getVar("Nom du Site","Skimia Agency");
+
+generateParamsFile($connexion);
+
+echo "Copie du parameters.yml";
+copy(dirname(__DIR__).DIRECTORY_SEPARATOR.'parameters.yml', dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'app/config/parameters.yml');
+echo " OK!\n";
+?>
