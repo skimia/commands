@@ -38,8 +38,9 @@ else{
 	echo "[Etape1] Terminee\n\n";
 
 	echo "[Etape2] Installation du projet\n";
-	system("php install_git");
+	include("install/install_git");
 	echo "[Etape2] Terminee\n\n";
+	chdir('..');
 
 	chdir('configurator');
 
