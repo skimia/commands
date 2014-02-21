@@ -1,0 +1,22 @@
+<?php
+chdir("..");
+chdir("..");
+system("php composer.phar self-update");
+system("php composer.phar update --optimize-autoloader");
+
+if(file_exists( dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'app.js')){
+unlink ( dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'app.js');
+}
+
+system("php app/console assets:install web");
+system("php app/console assetic:dump --env=prod --no-debug");
+system("php app/console assetic:dump --env=prod");
+system("php app/console assetic:dump --env=dev");
+
+system('php app/console doctrine:schema:update --force');
+
+system("php app/console cache:clear");
+system("php app/console cache:clear --env=prod ");
+
+chdir('commands');
+chdir('install');
