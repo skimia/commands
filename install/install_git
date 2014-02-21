@@ -13,3 +13,5 @@ if(!file_exists(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."app")){
 }
 else
 	echo "Deja installe\n";
+chdir('commands');
+chdir('install');
