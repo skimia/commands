@@ -14,6 +14,7 @@ system("php app/console assetic:dump --env=prod");
 system("php app/console assetic:dump --env=dev");
 
 system('php app/console doctrine:schema:update --force');
+system('php app/console init:acl');
 
 system("php app/console cache:clear");
 system("php app/console cache:clear --env=prod ");
